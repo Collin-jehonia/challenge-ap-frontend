@@ -63,3 +63,72 @@ You may use any of the following libraries or tools:
 
 **Best of luck!**  
 *Centre for Digital Initiatives – IUM*
+
+
+## 🚀 How to Run the Frontend
+
+### Prerequisites
+- Node.js and npm installed
+
+### Setup and Installation
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Start the development server**:
+   ```bash
+   npm start
+   ```
+
+3. **Access the application**:
+   The dashboard will be available at `http://localhost:3000`
+
+### Features
+
+- **Dashboard Overview**: View key metrics and registration data
+- **Academic Filtering**: Filter by academic year, including "Not Specified" option
+- **Programme Filtering**: Filter by specific academic programmes
+- **Data Visualization**: Interactive charts showing registration distribution
+- **Responsive Design**: Works on desktop and mobile devices
+- **Student Records**: Detailed view of student registration data with search and filter capabilities
+
+### Backend Connection
+
+The frontend connects to the backend API at `http://localhost:8000`. Make sure the backend server is running before using the dashboard.
+
+---
+
+## 
+
+The dashboard includes several key views and features as shown in these screenshots:
+
+1. **Dashboard Home**: 
+   - Key performance indicators showing total students, new registrations, and total registrations
+   - Filter controls for academic year and programme selection
+   - "Not Specified Year" filter showing 984 students with no academic year assigned
+
+2. **Registration Analytics**:
+   - Horizontal bar chart displaying registrations by programme 
+   - Color-coded bars for better visual differentiation
+   - Sort and filtering controls for data exploration
+   - Top programmes include DIPLOMA IN WATER RESOURCES MANAGEMENT and BACHELOR IN HUMAN RESOURCE MANAGEMENT
+
+3. **Top Feeder Schools**:
+   - Tabular display of secondary schools with highest student counts
+   - Ranked listing showing Holy Cross Convent School as the top feeder school with 182 students
+   - Academic year filter applied showing schools contributing students with no specified academic year
+
+4. **Student Records Page**:
+   - Comprehensive searchable student database
+   - Filterable by academic year and programme
+   - Displays student ID, name, email, programme, school, year and status
+   - Shows students with specified years (2023) and those with "Not Specified" year
+
+5. **Demographic Data**:
+   - Gender distribution pie chart showing gender breakdown of students
+   - Equal distribution between Male (45%) and Female (45%) with smaller percentages for other gender identities
+   - Color-coded segments for easy identification
+
+---
