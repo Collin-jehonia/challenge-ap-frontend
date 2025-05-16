@@ -14,38 +14,35 @@ import {
   CircularProgress,
   TextField,
   InputAdornment,
-  Chip
+  Chip,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  Button,
+  Grid as MuiGrid
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import SchoolIcon from '@mui/icons-material/School';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
-// Mock data for student records
+import { fetchStudentRecords } from '../services/api';
+
+// Interface for student records from API
 interface Student {
   id: number;
+  student_id: string;
   name: string;
   email: string;
   programme: string;
-  year: number;
+  year: number | null;
   status: 'Active' | 'Inactive' | 'Graduated';
-  gpa: number;
+  secondary_school: string;
 }
-
-const generateMockData = (): Student[] => {
-  const programmes = ['Computer Science', 'Business Administration', 'Engineering', 'Medicine', 'Law'];
-  const statuses: Array<'Active' | 'Inactive' | 'Graduated'> = ['Active', 'Inactive', 'Graduated'];
-  
-  return Array.from({ length: 50 }, (_, i) => ({
-    id: 10000 + i,
-    name: `Student ${i + 1}`,
-    email: `student${i + 1}@ium.edu`,
-    programme: programmes[Math.floor(Math.random() * programmes.length)],
-    year: Math.floor(Math.random() * 4) + 1,
-    status: statuses[Math.floor(Math.random() * statuses.length)],
-    gpa: parseFloat((Math.random() * 4).toFixed(2)),
-  }));
-};
 
 const StudentRecordsPage: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
@@ -53,16 +50,77 @@ const StudentRecordsPage: React.FC = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
+  const [totalCount, setTotalCount] = useState(0);
+  
+  // Filters
+  const [yearFilter, setYearFilter] = useState<string>('all');
+  const [programmeFilter, setProgrammeFilter] = useState<string>('all');
+  const [programmes, setProgrammes] = useState<string[]>([]);
+  const [years, setYears] = useState<(number | null)[]>([]);
+
+  // Fetch data with current filters and pagination
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      // Prepare filters
+      const filters: any = {
+        skip: page * rowsPerPage,
+        limit: rowsPerPage
+      };
+      
+      if (searchTerm) {
+        filters.search = searchTerm;
+      }
+      
+      if (yearFilter !== 'all') {
+        filters.year = yearFilter;
+      }
+      
+      if (programmeFilter !== 'all') {
+        filters.programme = programmeFilter;
+      }
+      
+      const data = await fetchStudentRecords(filters);
+      setStudents(data.students || []);
+      setTotalCount(data.total || data.students.length);
+      
+      // Extract unique programmes and years for filters if not already set
+      if (programmes.length === 0) {
+        const uniqueProgrammes = Array.from(
+          new Set(data.students.map((student: Student) => student.programme))
+        ) as string[];
+        setProgrammes(uniqueProgrammes);
+      }
+      
+      if (years.length === 0) {
+        const uniqueYears = Array.from(
+          new Set(data.students.map((student: Student) => student.year))
+        ).filter(year => year !== undefined).sort();
+        setYears(uniqueYears as (number | null)[]);
+      }
+    } catch (error) {
+      console.error('Error fetching student records:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    // Simulate API call with delay
+    fetchData();
+  }, [page, rowsPerPage, yearFilter, programmeFilter]);
+
+  // Separate effect for search to add debounce
+  useEffect(() => {
     const timer = setTimeout(() => {
-      setStudents(generateMockData());
-      setLoading(false);
-    }, 800);
+      if (page !== 0) {
+        setPage(0); // Reset to first page on search
+      } else {
+        fetchData();
+      }
+    }, 500);
     
     return () => clearTimeout(timer);
-  }, []);
+  }, [searchTerm]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -75,18 +133,28 @@ const StudentRecordsPage: React.FC = () => {
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
+  };
+  
+  const handleYearFilterChange = (event: SelectChangeEvent) => {
+    setYearFilter(event.target.value);
     setPage(0);
   };
-
-  const filteredStudents = students.filter((student) => {
-    const searchTermLower = searchTerm.toLowerCase();
-    return (
-      student.name.toLowerCase().includes(searchTermLower) ||
-      student.email.toLowerCase().includes(searchTermLower) ||
-      student.programme.toLowerCase().includes(searchTermLower) ||
-      student.id.toString().includes(searchTerm)
-    );
-  });
+  
+  const handleProgrammeFilterChange = (event: SelectChangeEvent) => {
+    setProgrammeFilter(event.target.value);
+    setPage(0);
+  };
+  
+  const handleRefresh = () => {
+    fetchData();
+  };
+  
+  const handleReset = () => {
+    setSearchTerm('');
+    setYearFilter('all');
+    setProgrammeFilter('all');
+    setPage(0);
+  };
 
   const getStatusColor = (status: 'Active' | 'Inactive' | 'Graduated') => {
     switch (status) {
@@ -101,7 +169,7 @@ const StudentRecordsPage: React.FC = () => {
     }
   };
 
-  if (loading) {
+  if (loading && students.length === 0) {
     return (
       <Box 
         display="flex" 
@@ -126,82 +194,156 @@ const StudentRecordsPage: React.FC = () => {
       </Box>
       
       {/* Search and Filters */}
-      <Paper sx={{ p: 2, mb: 3, borderRadius: 0 }}>
-        <TextField
-          fullWidth
-          placeholder="Search by name, email, program or ID"
-          value={searchTerm}
-          onChange={handleSearch}
-          variant="outlined"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            sx: { borderRadius: 0 }
-          }}
-        />
+      <Paper sx={{ p: 3, mb: 3, borderRadius: 0 }}>
+        <MuiGrid container spacing={3}>
+          {/* <MuiGrid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              placeholder="Search by name, email, ID, or programme"
+              value={searchTerm}
+              onChange={handleSearch}
+              variant="outlined"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                sx: { borderRadius: 0 }
+              }}
+            />
+          </MuiGrid> */}
+          
+          {/* <MuiGrid item xs={12} md={6}>
+            <Box display="flex" gap={2}>
+              <FormControl fullWidth>
+                <InputLabel id="year-filter-label">Academic Year</InputLabel>
+                <Select
+                  labelId="year-filter-label"
+                  id="year-filter"
+                  value={yearFilter}
+                  label="Academic Year"
+                  onChange={handleYearFilterChange}
+                  sx={{ borderRadius: 0 }}
+                >
+                  <MenuItem value="all">All Years</MenuItem>
+                  <MenuItem value="null">Not Specified</MenuItem>
+                  {years.map((year) => (
+                    <MenuItem key={year} value={year ? year.toString() : 'null'}>
+                      {year ? `Year ${year}` : 'Not Specified'}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              
+              <FormControl fullWidth>
+                <InputLabel id="programme-filter-label">Programme</InputLabel>
+                <Select
+                  labelId="programme-filter-label"
+                  id="programme-filter"
+                  value={programmeFilter}
+                  label="Programme"
+                  onChange={handleProgrammeFilterChange}
+                  sx={{ borderRadius: 0 }}
+                >
+                  <MenuItem value="all">All Programmes</MenuItem>
+                  {programmes.map((prog) => (
+                    <MenuItem key={prog} value={prog}>{prog}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              
+              <Box display="flex" gap={1}>
+                <Button 
+                  variant="outlined" 
+                  onClick={handleReset}
+                  startIcon={<FilterListIcon />}
+                  sx={{ borderRadius: 0, minWidth: '120px' }}
+                >
+                  Clear
+                </Button>
+                <Button 
+                  variant="outlined" 
+                  onClick={handleRefresh}
+                  startIcon={<RefreshIcon />}
+                  sx={{ borderRadius: 0, minWidth: '120px' }}
+                >
+                  Refresh
+                </Button>
+              </Box>
+            </Box>
+          </MuiGrid> */}
+        </MuiGrid>
       </Paper>
       
       {/* Student Records Table */}
       <Paper sx={{ width: '100%', borderRadius: 0 }}>
+        {loading && (
+          <Box display="flex" justifyContent="center" p={2}>
+            <CircularProgress size={30} />
+          </Box>
+        )}
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-                <TableCell>ID</TableCell>
+                <TableCell>Student ID</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Email</TableCell>
                 <TableCell>Programme</TableCell>
+                <TableCell>School</TableCell>
                 <TableCell>Year</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell>GPA</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredStudents
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((student) => (
-                  <TableRow key={student.id} hover>
-                    <TableCell>{student.id}</TableCell>
-                    <TableCell sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <PersonIcon fontSize="small" color="action" />
-                      {student.name}
-                    </TableCell>
-                    <TableCell>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <EmailIcon fontSize="small" color="action" />
-                        {student.email}
-                      </Box>
-                    </TableCell>
-                    <TableCell>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <SchoolIcon fontSize="small" color="action" />
-                        {student.programme}
-                      </Box>
-                    </TableCell>
-                    <TableCell>Year {student.year}</TableCell>
-                    <TableCell>
-                      <Chip 
-                        label={student.status} 
-                        size="small" 
-                        color={getStatusColor(student.status) as any}
-                        sx={{ borderRadius: 0 }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      {student.gpa}
-                    </TableCell>
-                  </TableRow>
-                ))}
+              {students.map((student) => (
+                <TableRow key={student.id} hover>
+                  <TableCell>{student.student_id}</TableCell>
+                  <TableCell sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <PersonIcon fontSize="small" color="action" />
+                    {student.name}
+                  </TableCell>
+                  <TableCell>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <EmailIcon fontSize="small" color="action" />
+                      {student.email}
+                    </Box>
+                  </TableCell>
+                  <TableCell>{student.programme}</TableCell>
+                  <TableCell>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <SchoolIcon fontSize="small" color="action" />
+                      {student.secondary_school}
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    {student.year ? `Year ${student.year}` : 'Not Specified'}
+                  </TableCell>
+                  <TableCell>
+                    <Chip 
+                      label={student.status} 
+                      size="small" 
+                      color={getStatusColor(student.status) as any}
+                      sx={{ borderRadius: 0 }}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+              {students.length === 0 && !loading && (
+                <TableRow>
+                  <TableCell colSpan={7} align="center" sx={{ py: 3 }}>
+                    No records found
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 25, 50, 100]}
           component="div"
-          count={filteredStudents.length}
+          count={totalCount}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

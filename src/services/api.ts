@@ -135,7 +135,13 @@ export const fetchRegistrations = async (
   }
 };
 
-export const fetchStudentRecords = async (filters: any) => {
+export const fetchStudentRecords = async (filters: {
+  search?: string;
+  year?: string;
+  programme?: string;
+  skip?: number;
+  limit?: number;
+}) => {
   try {
     const response = await api.get('/api/students', { params: filters });
     return response.data;
