@@ -100,8 +100,7 @@ The frontend connects to the backend API at `http://localhost:8000`. Make sure t
 
 ---
 
-##
-
+## 📷 Screenshot Gallery
 
 The dashboard includes several key views and features as shown in these screenshots:
 
@@ -109,27 +108,42 @@ The dashboard includes several key views and features as shown in these screensh
    - Key performance indicators showing total students, new registrations, and total registrations
    - Filter controls for academic year and programme selection
    - "Not Specified Year" filter showing 984 students with no academic year assigned
+   
+   ![Dashboard Home](./src/assets/Screenshot%202025-05-16%20at%2012.29.57%20PM.png)
 
 2. **Registration Analytics**:
    - Horizontal bar chart displaying registrations by programme 
    - Color-coded bars for better visual differentiation
    - Sort and filtering controls for data exploration
    - Top programmes include DIPLOMA IN WATER RESOURCES MANAGEMENT and BACHELOR IN HUMAN RESOURCE MANAGEMENT
+   
+   ![Registration Analytics](./src/assets/Screenshot%202025-05-16%20at%2012.30.06%20PM.png)
 
 3. **Top Feeder Schools**:
    - Tabular display of secondary schools with highest student counts
    - Ranked listing showing Holy Cross Convent School as the top feeder school with 182 students
    - Academic year filter applied showing schools contributing students with no specified academic year
+   
+   ![Top Feeder Schools](./src/assets/Screenshot%202025-05-16%20at%2012.30.16%20PM.png)
 
 4. **Student Records Page**:
    - Comprehensive searchable student database
    - Filterable by academic year and programme
    - Displays student ID, name, email, programme, school, year and status
    - Shows students with specified years (2023) and those with "Not Specified" year
+   
+   ![Student Records](./src/assets/Screenshot%202025-05-16%20at%2012.30.20%20PM.png)
 
 5. **Demographic Data**:
    - Gender distribution pie chart showing gender breakdown of students
    - Equal distribution between Male (45%) and Female (45%) with smaller percentages for other gender identities
    - Color-coded segments for easy identification
+   
+   ![Gender Distribution](./src/assets/Screenshot%202025-05-16%20at%2012.30.26%20PM.png)
+
+6. **Dashboard Overview**:
+   - Complete dashboard with navigation and all components visible
+   
+   ![Dashboard Overview](./src/assets/Screenshot%202025-05-16%20at%2012.36.39%20PM.png)
 
 ---
