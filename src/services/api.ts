@@ -4,6 +4,7 @@ import {
   ProgrammeCount, 
   YearCount, 
   SchoolCount, 
+  GenderCount,
   StudentRegistration 
 } from '../types';
 
@@ -75,10 +76,29 @@ export const fetchTopSchools = async (
   
   try {
     const response = await api.get<SchoolCount[]>('/api/top-schools', { params });
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error('Error fetching top schools:', error);
     throw new Error('Failed to fetch top schools data. Is the backend server running?');
+  }
+};
+
+export const fetchRegistrationsByGender = async (
+  year?: string | number,
+  programme?: string
+): Promise<GenderCount[]> => {
+  const params: Record<string, any> = {};
+  
+  if (year && year !== 'all') params.year = year;
+  if (programme && programme !== 'all') params.programme = programme;
+  
+  try {
+    const response = await api.get<GenderCount[]>('/api/registrations-by-gender', { params });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching registrations by gender:', error);
+    throw new Error('Failed to fetch gender data. Is the backend server running?');
   }
 };
 

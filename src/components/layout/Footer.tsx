@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
                 sx={{ 
                   height: 50, 
                   mb: 2,
-                  filter: 'brightness(0) invert(1)' // Make logo white
+                  filter: 'brightness(0) invert(1)'
                 }} 
               />
               <Typography variant="body2" sx={{ mb: 2, textAlign: { xs: 'center', md: 'left' } }}>
