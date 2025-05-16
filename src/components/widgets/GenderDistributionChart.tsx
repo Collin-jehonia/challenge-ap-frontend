@@ -16,16 +16,15 @@ import { GenderCount } from '../../types';
 import { fetchRegistrationsByGender } from '../../services/api';
 
 interface GenderDistributionChartProps {
-  academicYear?: string;
-  programme?: string;
+  filters: {
+    academicYear: string;
+    programme: string;
+  };
 }
 
 const COLORS = ['#2196f3', '#f50057', '#4caf50', '#ff9800', '#9c27b0'];
 
-const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({ 
-  academicYear, 
-  programme 
-}) => {
+const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({ filters }) => {
   const [data, setData] = useState<GenderCount[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +33,15 @@ const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({
   const loadData = async () => {
     setLoading(true);
     try {
-      const genderData = await fetchRegistrationsByGender(academicYear, programme);
+      const yearFilter = filters.academicYear !== 'all' && filters.academicYear !== null && filters.academicYear !== undefined
+        ? filters.academicYear 
+        : undefined;
+      
+      const programmeFilter = filters.programme !== 'all' && filters.programme !== null && filters.programme !== undefined
+        ? filters.programme 
+        : undefined;
+      
+      const genderData = await fetchRegistrationsByGender(yearFilter, programmeFilter);
       setData(genderData);
       setError(null);
     } catch (err) {
@@ -47,7 +54,7 @@ const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({
 
   useEffect(() => {
     loadData();
-  }, [academicYear, programme]);
+  }, [filters]);
 
   const handleRefresh = () => {
     loadData();
@@ -105,8 +112,8 @@ const GenderDistributionChart: React.FC<GenderDistributionChartProps> = ({
     );
   };
 
-  const filteredTitle = academicYear && academicYear !== 'all' 
-    ? `Gender Distribution (${academicYear})`
+  const filteredTitle = filters.academicYear && filters.academicYear !== 'all' 
+    ? `Gender Distribution (${filters.academicYear})`
     : 'Gender Distribution';
 
   return (

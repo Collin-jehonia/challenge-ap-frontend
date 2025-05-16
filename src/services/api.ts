@@ -24,7 +24,9 @@ export const fetchTotalRegistrations = async (
 ): Promise<TotalRegistrations> => {
   const params: Record<string, any> = {};
   
-  if (year && year !== 'all') params.year = year;
+  if (year && year !== 'all') {
+    params.year = year;
+  }
   if (programme && programme !== 'all') params.programme = programme;
   
   try {
@@ -37,9 +39,14 @@ export const fetchTotalRegistrations = async (
 };
 
 export const fetchRegistrationsByProgramme = async (
-  year?: string | number
+  year?: string | number,
+  limit: number = 30
 ): Promise<ProgrammeCount[]> => {
-  const params = year && year !== 'all' ? { year } : {};
+  const params: Record<string, any> = { limit };
+  
+  if (year && year !== 'all') {
+    params.year = year;
+  }
   
   try {
     const response = await api.get<ProgrammeCount[]>('/api/registrations-by-programme', { params });
@@ -71,7 +78,9 @@ export const fetchTopSchools = async (
 ): Promise<SchoolCount[]> => {
   const params: Record<string, any> = { limit };
   
-  if (year && year !== 'all') params.year = year;
+  if (year && year !== 'all') {
+    params.year = year;
+  }
   if (programme && programme !== 'all') params.programme = programme;
   
   try {
@@ -90,7 +99,9 @@ export const fetchRegistrationsByGender = async (
 ): Promise<GenderCount[]> => {
   const params: Record<string, any> = {};
   
-  if (year && year !== 'all') params.year = year;
+  if (year && year !== 'all') {
+    params.year = year;
+  }
   if (programme && programme !== 'all') params.programme = programme;
   
   try {
@@ -111,7 +122,7 @@ export const fetchRegistrations = async (
 ): Promise<StudentRegistration[]> => {
   const params: Record<string, any> = { skip, limit };
   
-  if (year && year !== 'all') params.year = year;
+  if (year && year !== 'all') params.year = year; // Now properly handles 'null' string
   if (programme && programme !== 'all') params.programme = programme;
   if (school) params.school = school;
   

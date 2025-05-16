@@ -87,9 +87,9 @@ const TotalRegistrationsWidget: React.FC<TotalRegistrationsWidgetProps> = ({ fil
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
               {filters.academicYear !== 'all' && filters.programme !== 'all' ? 
-                `${filters.programme} (${filters.academicYear})` :
+                `${filters.programme} (${filters.academicYear === 'null' ? 'Not Specified Year' : filters.academicYear})` :
                 filters.academicYear !== 'all' ? 
-                  `Year ${filters.academicYear}` : 
+                  (filters.academicYear === 'null' ? 'Not Specified Year' : `Year ${filters.academicYear}`) : 
                   filters.programme !== 'all' ? 
                     `${filters.programme}` : 
                     'All Registrations'}

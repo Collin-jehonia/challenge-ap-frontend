@@ -185,7 +185,7 @@ const DashboardPage: React.FC = () => {
     if (!loading) {
       fetchDashboardData();
     }
-  }, [filters]); // Run effect when filters change
+  }, [filters]);
 
   if (loading) {
     return (
@@ -253,6 +253,7 @@ const DashboardPage: React.FC = () => {
               sx={{ borderRadius: 0 }}
             >
               <MenuItem value="all">All Years</MenuItem>
+              <MenuItem value="null">Not Specified</MenuItem>
               {yearOptions.filter(year => year !== null && year !== undefined).map(year => (
                 <MenuItem key={year} value={year.toString()}>{year}</MenuItem>
               ))}
@@ -288,7 +289,11 @@ const DashboardPage: React.FC = () => {
           
           <Typography variant="body2" color="text.secondary">
             {filters.academicYear !== 'all' || filters.programme !== 'all' ? (
-              <>Showing filtered data for {filters.academicYear !== 'all' ? `Year ${filters.academicYear}` : 'all years'} {filters.programme !== 'all' ? `in ${filters.programme}` : ''}</>
+              <>Showing filtered data for {filters.academicYear !== 'all' 
+                  ? (filters.academicYear === 'null' 
+                      ? 'Not Specified Year' 
+                      : `Year ${filters.academicYear}`) 
+                  : 'all years'} {filters.programme !== 'all' ? `in ${filters.programme}` : ''}</>
             ) : (
               'Showing all data - apply filters to refine results'
             )}
@@ -495,8 +500,7 @@ const DashboardPage: React.FC = () => {
                     </Box>
                     <Divider sx={{ mb: 2 }} />
                     <GenderDistributionChart
-                      academicYear={filters.academicYear}
-                      programme={filters.programme}
+                      filters={filters}
                     />
                   </Box>
                 </Box>

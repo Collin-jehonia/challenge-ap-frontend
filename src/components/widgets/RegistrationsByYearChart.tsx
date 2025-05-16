@@ -47,6 +47,9 @@ const RegistrationsByYearChart: React.FC<RegistrationsByYearChartProps> = ({ fil
           ? filters.programme 
           : undefined;
         
+        // Note: We don't apply the year filter here since this chart is specifically showing data across all years
+        // Filtering by a specific year would reduce the chart to a single data point
+        
         const result = await fetchRegistrationsByYear(programmeFilter);
         
         // Sort data by year in ascending order

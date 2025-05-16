@@ -187,7 +187,7 @@ const Header: React.FC<HeaderProps> = ({
             alignItems: 'center',
             gap: 1.5
           }}>
-            <FormControl 
+            {/* <FormControl 
               size="small" 
               sx={{ 
                 width: 130,
@@ -211,9 +211,9 @@ const Header: React.FC<HeaderProps> = ({
                   <MenuItem key={year} value={year.toString()}>{year}</MenuItem>
                 ))}
               </Select>
-            </FormControl>
+            </FormControl> */}
             
-            <FormControl 
+            {/* <FormControl 
               size="small" 
               sx={{ 
                 width: 150,
@@ -238,7 +238,7 @@ const Header: React.FC<HeaderProps> = ({
                 ))}
               </Select>
             </FormControl>
-            
+             */}
             {isMobile && (
               <IconButton 
                 color="inherit" 
