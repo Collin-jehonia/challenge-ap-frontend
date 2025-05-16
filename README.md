@@ -6,10 +6,10 @@ Welcome to the **Frontend Repository** for the Analyst Programmer Technical Chal
 
 Please provide your personal details **exactly as they appear on your CV**:
 
-- **Full Name**: _e.g., Jane Doe_  
-- **Email Address**: _e.g., jane.doe@example.com_  
-- **Phone Number**: _e.g., +264 81 234 5678_  
-- **Other Information (Optional)**: _LinkedIn, portfolio, GitHub profile, etc._
+- **Full Name**: Collin Nehemia
+- **Email Address**: collinnadilu@gmail.com 
+- **Phone Number**: +264 81 5713080 
+- **Other Information (Optional)**: https://www.linkedin.com/in/collin-nehemia-05643520a/
 
 ⚠️ **Submissions without valid personal details will be disqualified.**
 
