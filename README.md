@@ -8,7 +8,7 @@ Please provide your personal details **exactly as they appear on your CV**:
 
 - **Full Name**: Collin Nehemia
 - **Email Address**: collinnadilu@gmail.com 
-- **Phone Number**: +264 815713080 
+- **Phone Number**: +264 81 5713080 
 - **Other Information (Optional)**: https://www.linkedin.com/in/collin-nehemia-05643520a/
 
 ⚠️ **Submissions without valid personal details will be disqualified.**
