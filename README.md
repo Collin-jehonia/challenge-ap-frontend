@@ -100,7 +100,7 @@ The frontend connects to the backend API at `http://localhost:8000`. Make sure t
 
 ---
 
-## ![Uploading Screenshot 2025-05-16 at 12.29.57 PM.png…]()
+##
 
 
 The dashboard includes several key views and features as shown in these screenshots:
