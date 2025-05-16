@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80">
+  <!-- Globe part -->
+  <circle cx="40" cy="40" r="38" fill="#f5f5f5" stroke="#18304B" stroke-width="1"/>
+  <path d="M40,2 a38,38 0 0 1 0,76 a38,38 0 0 1 0,-76" fill="none" stroke="#18304B" stroke-width="3"/>
+  <!-- Grid lines for globe -->
+  <path d="M8,40 H72 M40,8 V72 M16,16 L64,64 M16,64 L64,16" fill="none" stroke="#18304B" stroke-width="1"/>
+  <!-- Continents -->
+  <path d="M24,16 Q36,12 44,20 Q52,30 48,40 Q44,48 28,48 Q20,40 18,32 Q22,20 24,16" fill="#18304B"/>
+  <path d="M60,30 Q56,34 52,38 Q48,44 54,52 Q60,60 56,68 Q44,64 52,56 Q48,48 56,40 Q64,36 60,30" fill="#18304B"/>
+  <path d="M18,52 Q26,58 30,64 Q36,68 42,64 Q48,60 42,56 Q38,52 32,56 Q24,54 18,52" fill="#18304B"/>
+  
+  <!-- Book and emblem -->
+  <rect x="32" y="44" width="16" height="12" fill="#9A0000" rx="1" ry="1"/>
+  <path d="M34,44 V56 M46,44 V56 M34,44 Q40,42 46,44 M34,56 Q40,58 46,56" fill="none" stroke="#ffffff" stroke-width="0.6"/>
+  
+  <!-- IUM text -->
+  <text x="90" y="55" font-family="serif" font-size="55" font-weight="bold" fill="#9A0000">IUM</text>
+</svg> 

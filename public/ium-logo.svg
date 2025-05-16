@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" width="600" height="200">
+  <!-- Globe part -->
+  <circle cx="100" cy="100" r="95" fill="#f5f5f5" stroke="#18304B" stroke-width="2"/>
+  <path d="M100,5 a95,95 0 0 1 0,190 a95,95 0 0 1 0,-190" fill="none" stroke="#18304B" stroke-width="8"/>
+  <!-- Grid lines for globe -->
+  <path d="M20,100 H180 M100,20 V180 M40,40 L160,160 M40,160 L160,40" fill="none" stroke="#18304B" stroke-width="2"/>
+  <!-- Continents -->
+  <path d="M60,40 Q90,30 110,50 Q130,75 120,100 Q110,120 70,120 Q50,100 45,80 Q55,50 60,40" fill="#18304B"/>
+  <path d="M150,75 Q140,85 130,95 Q120,110 135,130 Q150,150 140,170 Q110,160 130,140 Q120,120 140,100 Q160,90 150,75" fill="#18304B"/>
+  <path d="M45,130 Q65,145 75,160 Q90,170 105,160 Q120,150 105,140 Q95,130 80,140 Q60,135 45,130" fill="#18304B"/>
+  
+  <!-- Book and emblem -->
+  <rect x="80" y="110" width="40" height="30" fill="#9A0000" rx="2" ry="2"/>
+  <path d="M85,110 V140 M115,110 V140 M85,110 Q100,105 115,110 M85,140 Q100,145 115,140" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+  
+  <!-- IUM text -->
+  <text x="250" y="150" font-family="serif" font-size="145" font-weight="bold" fill="#9A0000">IUM</text>
+  <!-- Tagline -->
+  <text x="250" y="190" font-family="sans-serif" font-size="24" font-weight="bold" fill="#9A0000">THE INTERNATIONAL</text>
+  <text x="250" y="220" font-family="sans-serif" font-size="24" font-weight="bold" fill="#9A0000">UNIVERSITY OF MANAGEMENT</text>
+</svg> 
